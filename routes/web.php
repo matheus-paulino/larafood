@@ -6,6 +6,10 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/', 'Admin\PlanController@index')->name('admin.index');
 
+    Route::prefix('plans')->group(function() {
+        Route::get('{url}/details', 'Admin\DetailPlanController@index')->name('plan.detail.index');
+    });
+
     Route::prefix('plans')->group(function () {
         Route::get('/', 'Admin\PlanController@index')->name('plan.index');
         Route::get('create', 'Admin\PlanController@create')->name('plan.create');

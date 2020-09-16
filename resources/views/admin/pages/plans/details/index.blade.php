@@ -7,15 +7,16 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Início</a></li>
         <li class="breadcrumb-item"><a href="{{ route('plan.index') }}">Planos</a></li>
-        <li class="breadcrumb-item active"><a href="#">Listar</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('plan.show', $plan->url) }}">{{ $plan->name }}</a></li>
+        <li class="breadcrumb-item active"><a href="{{ route('plan.detail.index', $plan->url) }}">Detalhes</a></li>
     </ol>
        
-    <a href="{{ route('plan.create') }}" class="btn btn-success"><i class="far fa-plus-square"></i> Adicionar novo plano</a>
+    <h2 class="btn btn-success"> Detalhes do plano {{ $plan->name}}</h2>
 @endsection
 
 @section('content')
     <div class="card">
-        <div class="card-header">
+  
             <form class="form form-inline" action="{{ route('plan.search') }}" method="POST">
                 @csrf
                 <div class="form-group">
@@ -32,21 +33,18 @@
                             Nome
                         </th>
                         <th>Preço</th>
-                        <th>Açoes</th>
+                        <th width="50">Açoes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($plans as $plan)
+                    @foreach ($details as $rowDetail)
                         <tr>
                             <td>
-                                {{ $plan->name }}
+                                {{ $rowDetail->name }}
                             </td>
-                            <td>
-                                R$ {{ number_format($plan->price, 2, ',', '.') }}
-                            </td>
+                            
                             <td>
                                 <a href="{{ route('plan.show', $plan->url) }}" class="btn btn-warning"><i class="far fa-eye"></i></a>
-                                <a href="{{ route('plan.detail.index', $plan->url) }}" class="btn btn-primary">Detalhes do plano</a>
                                 <form action="{{ route('plan.destroy', $plan->id) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
@@ -60,9 +58,9 @@
         </div>
         <div class="card-footer">
             @if (isset($filters))
-                {!! $plans->appends($filters)->links() !!}
+                {!! $details->appends($filters)->links() !!}
             @else
-                {!! $plans->links() !!}
+                {!! $details->links() !!}
             @endif
         </div>
     </div>
